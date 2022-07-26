@@ -4,6 +4,8 @@ export const colors = {
   loginText: '#565656',
   loginBgLight: '#F6F8F5',
   loginBgColor: '#E0FFDD',
+  red: '#FF0000',
+  transparent: 'rgba(0,0,0,0)',
 };
 
 export const icons = {

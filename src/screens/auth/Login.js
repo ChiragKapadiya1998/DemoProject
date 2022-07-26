@@ -7,10 +7,14 @@ import Button from '../../components/common/Button';
 import AuthFooter from '../../components/auth/AuthFooter';
 import AuthBackground from '../../components/auth/AuthBackground';
 import {colors} from '../../helper/utils';
+import {strings} from '../../helper/strings';
 
 const Login = ({navigation}) => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [hidePass, setHidePass] = useState(true);
+
+  const onIconPress = () => setHidePass(!hidePass);
 
   return (
     <KeyboardAvoidingView
@@ -22,25 +26,27 @@ const Login = ({navigation}) => {
       <SafeAreaView />
       <AuthHeader headerName={'LOGIN!'} />
       <InputText
-        lable={'Username'}
+        label={'Username'}
         value={userName}
         onChangeText={name => setUserName(name)}
         containerStyle={styles.userNameStyle}
       />
       <InputText
-        lable={'Password'}
+        label={'Password'}
         value={password}
         onChangeText={pass => setPassword(pass)}
         containerStyle={styles.passwordStyle}
-        secureTextEntry={true}
+        secureTextEntry={hidePass ? true : false}
+        onIconPress={onIconPress}
+        inputType={'password'}
       />
       <Button btnName={'LOGIN'} containerStyle={styles.buttonStyle} />
       <AuthFooter
-        text={'Forgot Password?'}
+        text={strings.forgotPass}
         containerStyle={styles.footerStyle}
       />
       <AuthFooter
-        text={'OR Create a New Account!'}
+        text={strings.createNew}
         onPress={() => navigation.navigate('SignUp')}
       />
       <SafeAreaView />
@@ -67,8 +73,6 @@ const styles = StyleSheet.create({
   bgStyle3: {
     right: 0,
     bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   userNameStyle: {
     marginTop: hp(3),

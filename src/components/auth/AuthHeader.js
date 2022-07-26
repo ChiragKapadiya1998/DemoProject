@@ -17,7 +17,7 @@ export default AuthHeader;
 const styles = StyleSheet.create({
   container: {
     marginLeft: wp(7),
-    marginTop: hp(11),
+    marginTop: hp(6),
   },
   headerText: {
     marginTop: hp(6),
