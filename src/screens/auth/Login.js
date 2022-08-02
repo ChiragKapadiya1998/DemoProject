@@ -1,20 +1,44 @@
+import React, {useState, useEffect} from 'react';
 import {SafeAreaView, StyleSheet, KeyboardAvoidingView} from 'react-native';
-import React, {useState} from 'react';
-import AuthHeader from '../../components/auth/AuthHeader';
-import InputText from '../../components/common/InputText';
-import {hp} from '../../helper/constants';
-import Button from '../../components/common/Button';
-import AuthFooter from '../../components/auth/AuthFooter';
-import AuthBackground from '../../components/auth/AuthBackground';
-import {colors} from '../../helper/utils';
-import {strings} from '../../helper/strings';
 
-const Login = ({navigation}) => {
+import {useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+
+import AuthBackground from '../../components/auth/AuthBackground';
+import AuthHeader from '../../components/auth/AuthHeader';
+import AuthFooter from '../../components/auth/AuthFooter';
+import InputText from '../../components/common/InputText';
+import Button from '../../components/common/Button';
+import {strings} from '../../helper/strings';
+import {hp} from '../../helper/constants';
+import {colors} from '../../helper/utils';
+import {getDataRequest} from '../../action/dataAction';
+
+const Login = ({}) => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const [hidePass, setHidePass] = useState(true);
+  const [isHidePass, setIsHidePass] = useState(true);
 
-  const onIconPress = () => setHidePass(!hidePass);
+  const {navigate} = useNavigation();
+  const dispatch = useDispatch();
+
+  const onChangeUserName = name => setUserName(name);
+  const onChangePassword = pass => setPassword(pass);
+  const onIconPress = () => setIsHidePass(!isHidePass);
+  const onLoginPress = () => navigate('HomeScreen');
+  const onCreateNewPress = () => navigate('SignUp');
+
+  const getUserData = () => {
+    const request = {
+      onSuccess: response => console.log('on success', response),
+      onFail: response => console.log('on fail response', response),
+    };
+    dispatch(getDataRequest(request));
+  };
+
+  useEffect(() => {
+    // getUserData();
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -28,27 +52,28 @@ const Login = ({navigation}) => {
       <InputText
         label={'Username'}
         value={userName}
-        onChangeText={name => setUserName(name)}
+        onChangeText={onChangeUserName}
         containerStyle={styles.userNameStyle}
       />
       <InputText
         label={'Password'}
         value={password}
-        onChangeText={pass => setPassword(pass)}
+        onChangeText={onChangePassword}
         containerStyle={styles.passwordStyle}
-        secureTextEntry={hidePass ? true : false}
+        secureTextEntry={isHidePass ? true : false}
         onIconPress={onIconPress}
         inputType={'password'}
       />
-      <Button btnName={'LOGIN'} containerStyle={styles.buttonStyle} />
+      <Button
+        btnName={'LOGIN'}
+        containerStyle={styles.buttonStyle}
+        onPress={onLoginPress}
+      />
       <AuthFooter
         text={strings.forgotPass}
         containerStyle={styles.footerStyle}
       />
-      <AuthFooter
-        text={strings.createNew}
-        onPress={() => navigation.navigate('SignUp')}
-      />
+      <AuthFooter text={strings.createNew} onPress={onCreateNewPress} />
       <SafeAreaView />
     </KeyboardAvoidingView>
   );

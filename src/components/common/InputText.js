@@ -1,6 +1,7 @@
-import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
+
 import {wp} from '../../helper/constants';
 import {colors} from '../../helper/utils';
 import {icons} from '../../helper/utils';
@@ -26,7 +27,6 @@ const InputText = ({
         autoCorrect={false}
         style={[styles.inputText, containerStyle]}
       />
-
       {inputType === 'password' ? (
         <TouchableOpacity style={styles.iconWrapper} onPress={onIconPress}>
           <Image

@@ -1,16 +1,24 @@
-import {SafeAreaView, StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
-import {colors} from '../../helper/utils';
-import InputText from '../../components/common/InputText';
-import {hp} from '../../helper/constants';
-import AuthHeader from '../../components/auth/AuthHeader';
-import Button from '../../components/common/Button';
-import AuthBackground from '../../components/auth/AuthBackground';
-import {strings} from '../../helper/strings';
-import AuthError from '../../components/auth/AuthError';
-import {KeyboardAvoidingScrollView} from 'react-native-keyboard-avoiding-scroll-view';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-const SignUp = ({navigation}) => {
+import {colors} from '../../helper/utils';
+import {fontSize, hp} from '../../helper/constants';
+import {strings} from '../../helper/strings';
+import Button from '../../components/common/Button';
+import AuthError from '../../components/auth/AuthError';
+import InputText from '../../components/common/InputText';
+import AuthHeader from '../../components/auth/AuthHeader';
+import AuthBackground from '../../components/auth/AuthBackground';
+
+const SignUp = ({}) => {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,11 +29,14 @@ const SignUp = ({navigation}) => {
   const [passError, setPassError] = useState(false);
   const [cPassError, setCPassError] = useState(false);
 
+  const {navigate} = useNavigation();
+
   const onUserInput = name => setUserName(name);
 
   const onIconPress = () => setHidePass(!hidePass);
   const onIconCPress = () => setHideCPass(!hideCPass);
-  const onSignUpPress = () => navigation.navigate('HomeScreen');
+  const onSignUpPress = () => navigate('HomeScreen');
+  const onHaveAccountPress = () => navigate('Login');
 
   const emailValidation = mail => {
     setEmail(mail);
@@ -65,7 +76,7 @@ const SignUp = ({navigation}) => {
       <AuthBackground containerStyle={styles.bgStyle2} />
       <AuthBackground containerStyle={styles.bgStyle3} />
       <AuthHeader headerName={'SIGN UP!'} />
-      <KeyboardAvoidingScrollView>
+      <KeyboardAwareScrollView>
         <InputText
           label={'Enter Username'}
           value={userName}
@@ -105,7 +116,10 @@ const SignUp = ({navigation}) => {
           containerStyle={styles.buttonStyle}
           onPress={onSignUpPress}
         />
-      </KeyboardAvoidingScrollView>
+        <TouchableOpacity onPress={onHaveAccountPress}>
+          <Text style={styles.footerText}>Already Have a Account!</Text>
+        </TouchableOpacity>
+      </KeyboardAwareScrollView>
       <SafeAreaView />
     </View>
   );
@@ -150,5 +164,11 @@ const styles = StyleSheet.create({
     marginTop: hp(1),
     color: colors.red,
     fontWeight: '500',
+  },
+  footerText: {
+    textAlign: 'center',
+    color: colors.loginText,
+    marginTop: hp(2),
+    fontSize: fontSize(14),
   },
 });
